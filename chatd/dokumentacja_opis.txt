@@ -1,0 +1,106 @@
+Chat App
+
+1. Czym jest projekt?
+
+Projekt to aplikacja webowa typu czat, zbudowana w Pythonie przy użyciu FastAPI.
+Umożliwia:
+- Rejestrację i logowanie użytkowników,
+- Komunikację w czasie rzeczywistym za pomocą WebSocketów,
+- Przechowywanie danych użytkowników i wiadomości w bazie SQLite,
+- Prosty frontend (HTML + JavaScript) do interakcji z czatem.
+
+2. Wymagania projektowe
+
+ZREALIZOWANE:
+- Repozytorium kodu,
+- System autentykacji i użytkowników (rejestracja, logowanie, sesje),
+- Dwie dodatkowe domeny danych (wiadomości, pokoje rozmów),
+- Obsługa WebSocketów do komunikacji w czasie rzeczywistym.
+
+POMINIĘTE:
+- CRUD dla pokoi (np. brak możliwości tworzenia/usuwania pokojów przez użytkownika),
+- Konteneryzacja aplikacji (Docker),
+
+3. Jak korzystać z API
+
+1. Rejestracja:
+   POST /register
+   - Tworzy nowego użytkownika.
+
+2. Logowanie:
+   POST /login
+   - Loguje użytkownika, dane zapisywane w sesji.
+
+3. Sprawdzenie aktualnego użytkownika:
+   GET /me
+   - Zwraca dane aktualnie zalogowanego użytkownika.
+
+4. Po zalogowaniu frontend łączy się automatycznie:
+   WebSocket /ws/{room_id}
+   - Czat w czasie rzeczywistym w wybranym pokoju.
+
+5. Wylogowanie:
+   POST /logout
+   - Usuwa dane z sesji.
+
+4. Dokumentacja techniczna endpointów
+
+AUTENTYKACJA (auth.py)
+POST /register
+- Parametry: username, password
+- Tworzy nowego użytkownika (jeśli login nie jest zajęty)
+
+POST /login
+- Parametry: username, password
+- Loguje użytkownika i zapisuje dane w sesji
+
+GET /me
+- Zwraca dane aktualnego użytkownika (na podstawie sesji)
+
+POST /logout
+- Czyści dane sesji (wylogowanie)
+
+CZAT (chat.py)
+WebSocket /ws/{room_id}
+- Dane wejściowe (JSON):
+  {
+    content: str,
+    room_id: int,
+    user_id: int,
+    username: str
+  }
+- Odbiera i rozsyła wiadomości w czasie rzeczywistym do uczestników pokoju
+
+MODELE DANYCH (models.py)
+User:
+  - id
+  - username
+  - hashed_password
+
+Room:
+  - id
+  - name
+
+Message:
+  - id
+  - content
+  - timestamp
+  - user_id
+  - room_id
+
+SCHEMATY DANYCH (schemas.py)
+-----------------------------
+- UserCreate, UserLogin – do rejestracji i logowania
+- RoomCreate – (niewykorzystany) potencjalnie do tworzenia nowych pokoi
+- MessageCreate, MessageOut – struktury do komunikacji (wysyłanie i odbieranie wiadomości)
+
+5. Uruchomienie projektu (lokalnie)
+
+1. Zainstaluj api itd z requirements
+
+2. Uruchom serwer:
+   uvicorn main:app --reload
+
+3. Otwórz w przeglądarce:
+   http://localhost:8000
+
