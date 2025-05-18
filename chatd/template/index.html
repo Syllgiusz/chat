@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <script src="/template/script.js"></script>
+</head>
+<body>
+    <h1>Chat</h1>
+
+    <div id="user-info"></div>
+    <button id="logout" style="display:none;">Wyloguj</button>
+
+    <div>
+        <h2>Rejestracja</h2>
+        <input type="text" id="register-username" placeholder="Login">
+        <input type="password" id="register-password" placeholder="Hasło">
+        <button onclick="register()">Zarejestruj</button>
+    </div>
+
+    <div>
+        <h2>Logowanie</h2>
+        <input type="text" id="login-username" placeholder="Login">
+        <input type="password" id="login-password" placeholder="Hasło">
+        <button onclick="login()">Zaloguj</button>
+    </div>
+
+    <div id="chat-container">
+        <h2>Wiadomości</h2>
+        <div id="chat" style="border:1px solid #ccc; height:200px; overflow-y:scroll;"></div>
+        <input type="text" id="message" placeholder="Twoja wiadomość">
+        <button id="send">Wyślij</button>
+    </div>
+</body>
+</html>
